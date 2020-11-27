@@ -58,7 +58,8 @@ export class AuthService {
     //this.authUrl + '/v1/login
     const body = new HttpParams()
       .set('username', username)
-      .set('password', pass);
+      .set('password', pass)
+      .set('grant_type', 'password')
     return await this.httpClient.post('http://localhost:8080/oauth/token', body.toString(),
       {
         headers: {
