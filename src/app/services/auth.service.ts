@@ -55,7 +55,7 @@ export class AuthService {
   }
 
   async login(username: string, pass: string): Promise<Profile> {
-    //this.authUrl + '/v1/login
+    // + '/v1/login
     const body = new HttpParams()
       .set('username', username)
       .set('password', pass)
@@ -99,7 +99,7 @@ export class AuthService {
     this.authState.setEnvStatus(envStatus);
 
     return this.httpClient
-      .get(API_URL + '/auth/v1/users/me')
+      .get('http://localhost:8080/api/v1/users/me')
       .pipe(
         map((data: ProfileData) => {
           if (data) {
