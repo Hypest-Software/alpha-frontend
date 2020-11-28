@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 // import {Profile} from './profile.model';
-import {environment} from '../../environments/environment';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 // import {AuthState, AuthToken} from './auth.state';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import * as moment from 'moment';
 import {of} from 'rxjs/internal/observable/of';
 import {map} from 'rxjs/operators';
-import {AUTH_URL, API_URL} from "../app.component";
+import {API_URL, AUTH_URL, BASIC_AUTH_HEADER} from "../app.component";
 import {AuthState, AuthToken} from "./auth.state";
 import {Profile} from "./profile.model";
 import {ProfileData} from "./profile.data";
@@ -31,6 +30,7 @@ export class AuthService {
   // private authUrl = environment.authPath;
 
   private authUrl = AUTH_URL;
+  private basicAuthHeader = BASIC_AUTH_HEADER
 
   constructor(private httpClient: HttpClient, private authState: AuthState/*, private subscriptionService: SubscriptionService, private tenantService: TenantService*/) {
     if (!this.timeoutHandler) {
@@ -63,7 +63,7 @@ export class AuthService {
     return await this.httpClient.post('http://localhost:8080/oauth/token', body.toString(),
       {
         headers: {
-          'Authorization': 'Basic d2ViYXBwOnBhc3N3b3Jk',
+          'Authorization': this.basicAuthHeader,
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -126,10 +126,17 @@ export class AuthService {
 
   async refreshToken(): Promise<boolean> {
     console.warn('==refreshToken==');
+    const body = new HttpParams()
+      .set('grant_type', 'refresh_token')
+      .set('refresh_token', this.authState.refreshToken)
 
-    return this.httpClient.post(this.authUrl + '/v1/refresh', {refresh_token: this.authState.refreshToken},
+    return this.httpClient.post('http://localhost:8080/oauth/token', body.toString(),
       {
-        headers: {Accept: 'application/json', 'Content-Type': 'application/json'}
+        headers: {
+          'Authorization': this.basicAuthHeader,
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
       })
       .pipe(
         map((res: AuthToken) => {

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {environment} from "../environments/environment";
 
 export const BASE_API_URL = environment.apiUrl;
 export const API_URL = BASE_API_URL + '/api';
 export const CORE_URL = BASE_API_URL + '/core/api';
 export const AUTH_URL = BASE_API_URL + '/auth/api';
+export const BASIC_AUTH_HEADER = 'Basic ' + environment.apiClientBasicAuthHash
 
 @Component({
   selector: 'app-root',
