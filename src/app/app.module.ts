@@ -10,6 +10,7 @@ import {OAuthModule} from "angular-oauth2-oidc";
 import {AuthService} from "./services/auth.service";
 import {AuthModule} from "./services/auth.module";
 import {AuthInterceptor} from "./interceptors/auth-http.intercepror";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {AuthInterceptor} from "./interceptors/auth-http.intercepror";
         allowedUrls: ['http://localhost:8080']
       }
     }),
+    ReactiveFormsModule,
   ],
   providers: [
     {

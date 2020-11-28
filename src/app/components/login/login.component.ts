@@ -1,7 +1,7 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {OAuthService} from "angular-oauth2-oidc";
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-
+import {FormBuilder, FormControl} from "@angular/forms";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -10,28 +10,30 @@ import {AuthService} from "../../services/auth.service";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  loginForm;
 
-  constructor(private authService: AuthService) {
-
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
 
   }
 
   ngOnInit(): void {
-    this.authService.login('user', 'pass')
+    this.loginForm = this.formBuilder.group({
+      username: new FormControl(''),
+      password: new FormControl('')
+    });
+  }
+
+  onSubmit(formValue) {
+    console.log(formValue)
+    this.authService.login(formValue.username, formValue.password)
       .then(user => {
-        // if (user) {
-        //   if (
-        //     this.authState.lastVisitedPage &&
-        //     !this.authState.lastVisitedPage.includes('invitation') &&
-        //     !this.authState.lastVisitedPage.includes('404')) {
-        //     this.router.navigateByUrl(this.authState.lastVisitedPage);
-        //   } else {
-        //     this.router.navigate(['app']);
-        //   }
-        // } else {
-        //   this.toastService.error('Something went wrong, please try again.', 'Error');
-        // }
-        console.log(user)
+        if (user) {
+          this.router.navigate(['/'])
+        }
       });
   }
 
