@@ -8,7 +8,9 @@ import {AuthState} from "../services/auth.state";
 import {AuthService} from "../services/auth.service";
 import {Profile} from "../services/profile.model";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuard implements CanActivate {
 
   constructor(

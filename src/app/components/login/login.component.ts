@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(formValue.username, formValue.password)
       .then(user => {
         if (user) {
-          this.router.navigate(['/'])
+          this.router.navigate(['/app/dashboard'])
         }
       });
   }
