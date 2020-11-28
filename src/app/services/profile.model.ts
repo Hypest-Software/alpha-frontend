@@ -1,5 +1,6 @@
 import {ProfileData} from './profile.data';
 import {FlexyModel} from '@ng-flexy/core';
+
 // import {ROLE_ADMIN, ROLE_BILLING_MANAGER, ROLE_USER} from '../models/user-role.model';
 
 export class Profile extends FlexyModel<ProfileData> {
@@ -12,7 +13,7 @@ export class Profile extends FlexyModel<ProfileData> {
     this.data.userUUID = val;
   }
 
-  get email(): string {
+  get username(): string {
     return this.data && this.data.username;
   }
 
@@ -52,7 +53,7 @@ export class Profile extends FlexyModel<ProfileData> {
     if (this.firstName && this.lastName) {
       return this.firstName + ' ' + this.lastName;
     }
-    return this.email;
+    return this.username;
   }
 
   // isAdmin(): boolean {
